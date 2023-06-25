@@ -1,2 +1,4 @@
-# COM724_Project_Crypto
-Project artefacts for my Cryptocurrency Predictor
+
+## Starting the project
+
+* Navigate to the "ML and Flask" folder

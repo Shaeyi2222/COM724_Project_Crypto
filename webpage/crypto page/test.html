@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Webpage</title>
+  <link rel="stylesheet" href="test.css">
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+  <table class="table" style="position:static">
+    <tr>
+      <td style="width: 20%; position: fixed;">
+        <div class="left-column">
+          <!-- Drop-down filter parameters -->
+          <h3>Filter Parameters</h3>
+          <h6>Crypto Pair</h6>
+          <select id="filter1" onchange="getChart()"></select>
+          <br><br>
+          <h6>Timeframe</h6>
+          <select id="filter2" onchange="getChart()"></select>
+        </div>
+      </td>
+      <td style="width: 75%">
+        <div>
+          <!--Navigation Tab links -->
+          <div class="tab">
+            <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'chart')">Charts</button>
+            <button class="tablinks" onclick="openTab(event, 'overview')">Overview</button>
+            <button class="tablinks" onclick="openTab(event, 'feeds')">Feeds</button>
+            <button class="tablinks" onclick="openTab(event, 'predict')">Predict</button>
+          </div>
+              
+          <!-- Tab content -->
+          <div id="chart" class="tab-content">
+            <p id="chartbox">This is the charts tab.</p>
+          </div>
+      
+          <div id="overview" class="tab-content">
+            <p>This is the overview tab.</p>
+          </div>
+          
+          <div id="feeds" class="tab-content">
+            <div class="gcse-searchresults"></div>
+            <div class="gcse-search"></div>
+            <ul id="content"></ul>
+          </div>
+      
+          <div id="predict" class="tab-content">
+            <h2 class="tab-head"></h2>
+            <p>This is the prediction tab.</p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <script async src="https://cse.google.com/cse.js?cx=157101ab2c5134d76"></script>
+  <script src="test.js"></script>
+</body>
+</html>
