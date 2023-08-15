@@ -6,13 +6,8 @@ from GoogleNews import GoogleNews
 import pandas as pd
 from datetime import datetime, timedelta
 from pytz import timezone
-from flask_caching import Cache
-from bs4 import BeautifulSoup
-
-
 
 app = Flask(__name__)
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 app.static_folder = 'static'
 app.template_folder = 'templates'
@@ -37,38 +32,12 @@ def overview():
     request_data = request.get_json()
     symbol = request_data['symbol'].lower()
 
-    cached_data = cache.get(symbol)
-    
-    if cached_data is None:
-        # Fetch data from your data source (e.g., database, external API, etc.)
-        try:
-            url = f'https://coinmarketcap.com/currencies/{symbol}/'
-            print(url)
+    with open('overview_dict.txt', 'r') as file:
+        loaded_dict = json.load(file)
 
-            r = requests.get(url)
+    result = {'data':loaded_dict[symbol]}
+    return jsonify(result)
 
-            time.sleep(3)
-
-            soup = BeautifulSoup(r.text, 'html.parser')
-
-            about =soup.find_all('div', {"class":"sc-30065ccd-0 keBwNL"})
-
-            result = ""
-            for i in about[:-1]:
-                result += str(i)
-
-            if result:
-                cache.set(symbol, result, timeout=2147483647)
-                return jsonify({"data": result})
-
-            else:
-                return jsonify({"data": 'There was an error getting overview data'})
-            
-        except Exception as e:
-            return jsonify({"data": 'An error occured'})
-
-    else:
-        return cached_data
 
 @app.route('/get-feeds')
 def get_feeds():
