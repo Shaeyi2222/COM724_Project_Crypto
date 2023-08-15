@@ -166,7 +166,7 @@ async function getOverview() {
       console.log(data)
 
       const coinOverviewDiv = document.getElementById('coinOverview');
-      coinOverviewDiv.innerHTML = data['data'];
+      coinOverviewDiv.innerHTML = data['data'] + "<footer><p>&copy; CoinMarketCap</p></footer>";
   
   } catch (err) {
     console.error(err);
