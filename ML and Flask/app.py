@@ -1,44 +1,74 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests, json
-import datetime
+import datetime, time
 from GoogleNews import GoogleNews
 import pandas as pd
 from datetime import datetime, timedelta
 from pytz import timezone
+from flask_caching import Cache
+from bs4 import BeautifulSoup
 
 
 
 app = Flask(__name__)
-CORS(app)
-#app.secret_key = b'somelongrandomstring'
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-#client = Client(config.API_KEY, config.API_SECRET, tld='us')
+app.static_folder = 'static'
+app.template_folder = 'templates'
+
+CORS(app)
 
 
 @app.route('/')
 def index():
-    # title = 'CoinView'
+    return render_template('homepage.html')
 
-    # account = client.get_account()
+@app.route('/home')
+def home():
+    return render_template('test.html')
 
-    # balances = account['balances']
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
-    # exchange_info = client.get_exchange_info()
-    # symbols = exchange_info['symbols']
+@app.route('/overview', methods = ['POST'])
+def overview():
+    request_data = request.get_json()
+    symbol = request_data['symbol'].lower()
 
-    #return render_template('index.html', title=title, my_balances=balances, symbols=symbols)
-    return 'index'
+    cached_data = cache.get(symbol)
+    
+    if cached_data is None:
+        # Fetch data from your data source (e.g., database, external API, etc.)
+        try:
+            url = f'https://coinmarketcap.com/currencies/{symbol}/'
+            print(url)
 
-@app.route('/buy', methods=['POST'])
-def buy():
-    return 'buy'
+            r = requests.get(url)
 
+            time.sleep(3)
 
-@app.route('/sell')
-def sell():
-    return 'sell'
+            soup = BeautifulSoup(r.text, 'html.parser')
 
+            about =soup.find_all('div', {"class":"sc-30065ccd-0 keBwNL"})
+
+            result = ""
+            for i in about[:-1]:
+                result += str(i)
+
+            if result:
+                cache.set(symbol, result, timeout=2147483647)
+                return jsonify({"data": result})
+
+            else:
+                return jsonify({"data": 'There was an error getting overview data'})
+            
+        except Exception as e:
+            return jsonify({"data": 'An error occured'})
+
+    else:
+        return cached_data
 
 @app.route('/get-feeds')
 def get_feeds():
