@@ -6,26 +6,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 filtered_names = [
-    'Aptos',
-    'Arbitrum',
-    'Avalanche',
-    'BNB',
-    'Bitcoin',
-    'Bitcoin-Cash',
-    'Cardano',
-    'Chainlink',
-    'Dogecoin',
-    'Ethereum',
-    'Ethereum-Classic',
-    'Hedera',
-    'Litecoin',
-    'Monero',
-    'Polygon',
-    'Shiba-Inu',
-    'Solana',
-    'TRON',
-    'Wrapped-Bitcoin',
-    'XRP'
+    'Aptos', 'Arbitrum', 'Avalanche', 'BNB', 'Bitcoin', 'Bitcoin-Cash', 'Cardano', 'Chainlink', 'Dogecoin', 'Ethereum', 'Ethereum-Classic', 'Hedera', 'Litecoin', 'Monero', 'Polygon', 'Shiba-Inu', 'Solana', 'TRON', 'Wrapped-Bitcoin', 'XRP'
 ]
 
 diction = {}
@@ -50,8 +31,6 @@ for symbol in filtered_names:
     diction.update({
         sym: result 
     })
-
-print(diction)
 
 
 # Save the dictionary to a .txt file
