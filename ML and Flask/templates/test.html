@@ -47,37 +47,43 @@
       
           <div id="predict" class="tab-content">
            
-            <header>
-                <h1>Cryptocurrency Price Prediction</h1>
-            </header>
-            <main>
-                <section class="prediction-form">
-                    <h2>Predict Cryptocurrency Price</h2>
-                    <form id="price-prediction-form">
-                        <label for="cryptocurrency">Cryptocurrency:</label>
-                        <select id="cryptocurrency" name="cryptocurrency">
-                            <option value="BTC">Bitcoin (BTC)</option>
-                            <option value="ETH">Ethereum (ETH)</option>
-                            <!-- Add more options for other cryptocurrencies -->
-                        </select>
+            <head>
+              <title>Cryptocurrency Price Prediction</title>
+          </head>
+          <body>
+              <header>
+                  <h1>Cryptocurrency Price Prediction</h1>
+              </header>
+              <main>
+                  <section class="prediction-form">
+                      <h2>Predict Cryptocurrency Price</h2>
+                      <form id="price-prediction-form">
+                          <h2>Select Traded Coins:</h2>
+                          <form id="coinForm">
+                              <button type="button" id="select-all">Select All</button>
+                              <div id="coinList"></div>
+                          </form>
 
-                        <label for="desired-price">Desired Price ($):</label>
-                        <input type="number" id="desired-price" name="desired-price" step="0.01" required>
-
-                        <label for="desired-date">Desired Date:</label>
-                        <input type="date" id="desired-date" name="desired-date" required>
-
-                        <button type="submit">Predict</button>
-                    </form>
-                </section>
-                <section class="prediction-result">
-                    <h2>Prediction Result</h2>
-                    <p id="prediction-output">Enter your prediction details and click 'Predict'.</p>
-                </section>
-            </main>
-            <footer>
-                <p>&copy; 2023 Cryptocurrency Predictions</p>
-            </footer>
+                          <br>
+          
+                          <label for="desired-price">Desired Profit ($):</label>
+                          <input type="number" id="desired-price" name="desired-price" step="0.01" required>
+          
+                          <label for="desired-date">Desired Date:</label>
+                          <input type="date" id="desired-date" name="desired-date" required>
+          
+                          <button type="submit" id="predict-button">Predict</button>
+                      </form>
+                  </section>
+                  
+              </main>
+              <section class="prediction-result">
+                <h2>Prediction Result</h2>
+                <p id="prediction-output">Enter your prediction details and click 'Predict'.</p>
+            </section>
+              <footer>
+                  <p>&copy; 2023 Cryptocurrency Predictions</p>
+              </footer>
 
           </div>
         </div>

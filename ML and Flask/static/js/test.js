@@ -273,6 +273,85 @@ async function getChart() {
   }
 }
 
+
+async function make_predictions(pred_data) {
+  const url = 'http://127.0.0.1:5000/predict'
+  
+  try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(pred_data),
+      });
+
+      const data = await response.json();
+
+      console.log(data)
+
+      const predictionResultDiv = document.getElementById("prediction-output");
+      predictionResultDiv.innerHTML = "<p>A buy of " + data['data'] +  " will give you your desired target profit as at the desired date</p>";
+
+    } catch (err) {
+      console.error(err);
+      throw err;
+  }
+
+}
+
+const allCoins = [
+  'ADA', 'AVAX', 'BNB', 'BTC', 'BCH', 'LINK', 'DOGE', 'ETH', 'ETC', 
+  'HBAR', 'LTC', 'XMR', 'MATIC', 'SHIB', 'SOL', 'TRX', 'WBTC', 'XRP'
+];
+
+const coinListDiv = document.getElementById('coinList');
+const predictButton = document.getElementById('predict-button');
+const selectAllButton = document.getElementById('select-all');
+
+allCoins.forEach(coin => {
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.name = 'coins';
+  checkbox.value = coin;
+  coinListDiv.appendChild(checkbox);
+
+  const label = document.createElement('label');
+  label.appendChild(document.createTextNode(coin));
+  coinListDiv.appendChild(label);
+
+  coinListDiv.appendChild(document.createElement('br'));
+});
+
+selectAllButton.addEventListener('click', function() {
+  const checkboxes = document.querySelectorAll('input[name="coins"]');
+  const isSelectAll = checkboxes[0].checked;
+  checkboxes.forEach(checkbox => checkbox.checked = !isSelectAll);
+  selectAllButton.textContent = isSelectAll ? 'Select All' : 'Unselect All';
+});
+
+predictButton.addEventListener('click', function(event) {
+  event.preventDefault();
+
+  const selectedCoins = Array.from(document.querySelectorAll('input[name="coins"]:checked'))
+                          .map(checkbox => checkbox.value);
+
+  const desiredPrice = document.getElementById('desired-price').value;
+  const desiredDate = document.getElementById('desired-date').value;
+
+  const predictionData = {
+      'coins': selectedCoins,
+      'desiredPrice': desiredPrice,
+      'desiredDate': desiredDate
+  };
+
+  //console.log('Prediction data:', predictionData);
+
+  make_predictions(predictionData)
+  // You can process the prediction data here (e.g., send to server)
+});
+
+
 getChart()
 getOverview()
 getFeeds()
